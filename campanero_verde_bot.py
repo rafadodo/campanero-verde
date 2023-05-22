@@ -1,7 +1,6 @@
 """
 Bot de Telegram que puede ser comandado para devolver el canje de dólar CCL a MEP mediante el módulo
-campanero_verde. Lee de archivos \'.env\' tanto el token del bot como las credenciales para el
-campanero.
+campanero_verde. Lee de un archivo \'telegram_bot_token.env\' el token del bot.
 """
 import os
 from dotenv import load_dotenv
@@ -10,7 +9,6 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 import campanero_verde as campanero
 
-CREDENTIALS_FILENAME = 'bnz_credentials.env'
 TOKEN_FILENAME = 'telegram_bot_token.env'
 load_dotenv(TOKEN_FILENAME)
 token = os.environ.get('TOKEN')
@@ -29,10 +27,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 async def contame(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    load_dotenv(CREDENTIALS_FILENAME)
-    bnz_username = os.environ.get('BNZ_USER')
-    bnz_password = os.environ.get('BNZ_PASS')
-    canje = campanero.get_canje(bnz_username, bnz_password)
+    canje = campanero.get_canje()
     await context.bot.send_message(
         chat_id = update.effective_chat.id,
         text = 'El canje anda en {}%'.format(round(canje, 1)))
