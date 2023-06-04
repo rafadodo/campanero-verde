@@ -32,10 +32,12 @@ async def contame(update: Update, context: ContextTypes.DEFAULT_TYPE):
     load_dotenv(CREDENTIALS_FILENAME)
     bnz_username = os.environ.get('BNZ_USER')
     bnz_password = os.environ.get('BNZ_PASS')
-    canje = campanero.get_canje(bnz_username, bnz_password)
+    canje_al30, canje_gd30 = campanero.get_canje(bnz_username, bnz_password)
     await context.bot.send_message(
         chat_id = update.effective_chat.id,
-        text = 'El canje anda en {}%'.format(round(canje, 1)))
+        text = 'El canje anda en {}% para AL30 y en {}% para GD30'.format(
+                                                                        round(canje_al30, 1),
+                                                                        round(canje_gd30, 1)))
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(token).build()
