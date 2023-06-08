@@ -24,28 +24,32 @@ def get_canje(bnz_username, bnz_password):
         r = s.post(URL_LOGOUT, headers={"authorization": token})
 
     df_bonos = pd.DataFrame(bonos_soberanos.json()['cotizaciones'])[COLS_TABLA]
-    ult_precio_GD30C = df_bonos[
-                                df_bonos['ticker']=='GD30C'][
-                                df_bonos['plazo']=='48hs'][
+    ult_precio_gd30c = df_bonos.loc[(
+                                (df_bonos['ticker']=='GD30C') &
+                                (df_bonos['plazo']=='48hs')
+                                ),
                                 'u'
                                 ].to_numpy()[0]
-    ult_precio_GD30D = df_bonos[
-                                df_bonos['ticker']=='GD30D'][
-                                df_bonos['plazo']=='48hs'][
+    ult_precio_gd30d = df_bonos.loc[(
+                                (df_bonos['ticker']=='GD30D') &
+                                (df_bonos['plazo']=='48hs')
+                                ),
                                 'u'
                                 ].to_numpy()[0]
-    ult_precio_AL30C = df_bonos[
-                                df_bonos['ticker']=='AL30C'][
-                                df_bonos['plazo']=='48hs'][
+    ult_precio_al30c = df_bonos.loc[(
+                                (df_bonos['ticker']=='AL30C') &
+                                (df_bonos['plazo']=='48hs')
+                                ),
                                 'u'
                                 ].to_numpy()[0]
-    ult_precio_AL30D = df_bonos[
-                                df_bonos['ticker']=='AL30D'][
-                                df_bonos['plazo']=='48hs'][
+    ult_precio_al30d = df_bonos.loc[(
+                                (df_bonos['ticker']=='AL30D') &
+                                (df_bonos['plazo']=='48hs')
+                                ),
                                 'u'
                                 ].to_numpy()[0]
-    canje_al30 = 100 * (ult_precio_AL30D/ult_precio_AL30C - 1)
-    canje_gd30 = 100 * (ult_precio_GD30D/ult_precio_GD30C - 1)
+    canje_al30 = 100 * (ult_precio_al30d/ult_precio_al30c - 1)
+    canje_gd30 = 100 * (ult_precio_gd30d/ult_precio_gd30c - 1)
 
     return canje_al30, canje_gd30
 
